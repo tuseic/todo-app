@@ -5,6 +5,10 @@ import { Todo } from 'views/components/Todo'
 
 type Type = {
   todos: State['todo']['todos']
+  todoWithIndex: {
+    todo: State['todo']['todos'][0]
+    index: number
+  }
 }
 
 const TodoContainer: React.FC = () => {
@@ -12,8 +16,8 @@ const TodoContainer: React.FC = () => {
 
   const dispatch = useDispatch()
   const handleSetTodo = useCallback(
-    (todos: Type['todos']) => {
-      dispatch(actions.todo.setTodo(todos))
+    (todoWithIndex: Type['todoWithIndex']) => {
+      dispatch(actions.todo.setTodo(todoWithIndex))
     }, [dispatch]
   )
 

@@ -3,6 +3,10 @@ import { State } from 'state'
 
 type Type = {
   todos: State['todo']['todos']
+  todoWithIndex: {
+    todo: State['todo']['todos'][0]
+    index: number
+  }
 }
 
 type OwnProps = {
@@ -11,7 +15,7 @@ type OwnProps = {
 
 type Handler = {
   handleSetTodo: (
-    (todos: Type['todos']) => void
+    (todoWithIndex: Type['todoWithIndex']) => void
   )
 }
 
@@ -19,33 +23,45 @@ type Props = OwnProps & Handler
 
 export const Todo: React.FC<Props> = (props) => {
 
-  const setTodoText =  (e: React.ChangeEvent<HTMLInputElement>) => {
+  const setTodoTextFunc = (todoWithIndex: Type['todoWithIndex']) => (e: React.ChangeEvent<HTMLInputElement>) => {
     props.handleSetTodo({
-      text: e.target.value,
-      doneflag: props.todos.doneflag
+      todo: {
+        ...todoWithIndex.todo,
+        text: e.target.value,
+      },
+      index: todoWithIndex.index
     })
   }
 
-  const setTodoDoneFlag = () => {
+  const setTodoDoneFlagFunc = (todoWithIndex: Type['todoWithIndex']) => () => {
     props.handleSetTodo({
-      text: props.todos.text,
-      doneflag: !props.todos.doneflag
+      todo: {
+        ...todoWithIndex.todo,
+        doneflag: !todoWithIndex.todo.doneflag
+      },
+      index: todoWithIndex.index
     })
   }
 
   return (
     <div>
-      <input
-        type='text'
-        value={props.todos.text}
-        onChange={setTodoText}
-      />
-      <input
-        type='checkbox'
-        checked={props.todos.doneflag}
-        onClick={setTodoDoneFlag}
-        readOnly
-      />
+      { props.todos.map((todo, index) => {
+        return (
+          <div>
+            <input
+              type='text'
+              onChange={setTodoTextFunc({todo, index})}
+              value={todo.text}
+            />
+            <input
+              type='checkbox'
+              onClick={setTodoDoneFlagFunc({todo, index})}
+              checked={todo.doneflag}
+              readOnly
+            />
+          </div>
+        )
+      }) }
     </div>
   )
 }

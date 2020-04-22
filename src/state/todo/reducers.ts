@@ -5,9 +5,10 @@ export const reducer = reducerWithInitialState(initialState)
   .case(actions.setTodo, (state, payload) => {
     return {
       ...state,
-      todos: {
-        text: payload.text,
-        doneflag: payload.doneflag,
-      }
+      todos: [
+        ...state.todos.slice(0, payload.index),
+        payload.todo,
+        ...state.todos.slice(payload.index+1)
+      ]
     }
   })
