@@ -8,6 +8,10 @@ export const initialState: State = {
   todo: Todo.initialState
 }
 
+export const actions = {
+  todo: Todo.actions
+}
+
 export const reducers = {
   todo: Todo.reducer
 }
