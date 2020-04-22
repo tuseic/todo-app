@@ -1,7 +1,29 @@
 import React from 'react'
+import { State } from 'state'
 
-export const Todo: React.FC = () => {
+type Type = {
+  todos: State['todo']['todos']
+}
+
+type OwnProps = {
+  todos: Type['todos']
+}
+
+type Handler = {}
+
+type Props = OwnProps & Handler
+
+export const Todo: React.FC<Props> = (props) => {
   return (
-    <div>this is Todo</div>
+    <div>
+      <input
+        type='text'
+        value={props.todos.text}
+      />
+      <input
+        type='checkbox'
+        checked={props.todos.doneflag}
+      />
+    </div>
   )
 }
