@@ -1,8 +1,12 @@
 import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import TodoContainer from 'views/containers/TodoContainer'
 
 const App: React.FC = () => {
   return (
-    <React.Fragment/>
+    <Router>
+      <Route exact path='/'><TodoContainer/></Route>
+    </Router>
   )
 }
 
